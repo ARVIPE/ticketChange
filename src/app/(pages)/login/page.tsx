@@ -32,6 +32,10 @@ export default function Login() {
     }
   }
 
+  const handleSignupRedirect = () => {
+    router.push("/signup")
+  }
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -74,6 +78,17 @@ export default function Login() {
         >
           {isLoading ? "Iniciando sesión..." : "Sign In"}
         </button>
+        <div className="mt-4 text-center">
+          <span className="text-gray-600">¿No tienes una cuenta?</span>
+          <button
+            onClick={handleSignupRedirect}
+            className="ml-2 text-blue-600 hover:underline font-medium"
+            type="button"
+            disabled={isLoading}
+          >
+            Regístrate
+          </button>
+        </div>
       </div>
     </div>
   )

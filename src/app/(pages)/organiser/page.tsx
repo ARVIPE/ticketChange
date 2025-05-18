@@ -363,12 +363,7 @@ export default function OrganiserPage() {
               </div>
             </form>
 
-            {debugInfo && (
-              <div className="mt-4 p-2 bg-gray-100 rounded text-xs font-mono whitespace-pre-wrap">
-                <p className="font-bold">Debug Info:</p>
-                {debugInfo}
-              </div>
-            )}
+      
           </div>
 
           {/* Events List */}
