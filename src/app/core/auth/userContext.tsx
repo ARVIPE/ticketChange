@@ -56,7 +56,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         // Redirect based on user role
         if (user?.role === "comprador") router.push("/buyer")
         else if (user?.role === "organizador") router.push("/organiser")
-        else if (user?.role === "vendedor") router.push("/seller")
+        else if (user?.role === "vendedor") router.push("/buyer")
       }
       return result
     } catch (error: any) {

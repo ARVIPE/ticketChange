@@ -47,7 +47,7 @@ export class TicketSaleProcess {
       return {
         success: true,
         message: `Compra realizada con éxito. Se han emitido ${tickets.length} tickets.`,
-        ticketIds: tickets.map((t: any) => t.id),
+        ticketIds: tickets.map((t) => t.id),
       }
     } catch (error: any) {
       return { success: false, message: error.message }

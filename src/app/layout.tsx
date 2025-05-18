@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
-import { UserProviderWrapper } from "./providers"
+import { AppProviders } from "./providers"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TicketChange",
   description: "This is an app to sell tickets",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -27,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <UserProviderWrapper>{children}</UserProviderWrapper>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   )

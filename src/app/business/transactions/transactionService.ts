@@ -325,58 +325,7 @@ export class TransactionService implements ITransaccionMgt, IVentaMgt, IReventaM
     }
   }
 
-  async cancelarReventa(reventaId: number): Promise<{ success: boolean; error?: string }> {
-    try {
-      // Check if the resale exists
-      const { data: reventa, error: reventaError } = await supabase
-        .from("resales")
-        .select("*")
-        .eq("id", reventaId)
-        .single()
 
-      if (reventaError || !reventa) {
-        throw new Error(reventaError?.message || "Reventa no encontrada")
-      }
-
-      // Get current user
-      const { data: userData } = await supabase.auth.getUser()
-      if (!userData.user) throw new Error("Usuario no autenticado")
-
-      // Verify ownership
-      if (reventa.seller_email !== userData.user.email) {
-        throw new Error("No tienes permiso para cancelar esta reventa")
-      }
-
-      if (reventa.estado !== "pendiente") {
-        throw new Error("No se puede cancelar una reventa que ya ha sido completada")
-      }
-
-      // Update resale status
-      const { error: updateError } = await supabase.from("resales").update({ estado: "cancelada" }).eq("id", reventaId)
-
-      if (updateError) throw updateError
-
-      // Update transaction status
-      const { error: transError } = await supabase
-        .from("transactions")
-        .update({ estado: "cancelada" })
-        .eq("reventa_id", reventaId)
-
-      if (transError) throw transError
-
-      // Update ticket status
-      const { error: ticketError } = await supabase
-        .from("tickets")
-        .update({ en_reventa: false })
-        .eq("id", reventa.ticket_id)
-
-      if (ticketError) throw ticketError
-
-      return { success: true }
-    } catch (error: any) {
-      return { success: false, error: error.message }
-    }
-  }
 
   async listarReventas(): Promise<{ reventas: Reventa[]; error?: string }> {
     try {

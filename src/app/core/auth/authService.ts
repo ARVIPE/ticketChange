@@ -17,6 +17,7 @@ export class AuthService implements IUsuarioMgt {
       if (authError) throw authError
 
       // Create user profile in the users table
+      // Note: We're using email as the primary key now
       const { error: profileError } = await supabase.from("users").insert([
         {
           email,
@@ -51,6 +52,16 @@ export class AuthService implements IUsuarioMgt {
     await supabase.auth.signOut()
   }
 
+  async verificarCuenta(token: string): Promise<{ success: boolean; error?: string }> {
+    try {
+      // This would typically involve verifying a token sent via email
+      // For Supabase, this is handled automatically via email links
+      return { success: true }
+    } catch (error: any) {
+      return { success: false, error: error.message }
+    }
+  }
+
   async obtenerUsuarioActual(): Promise<User | null> {
     const { data } = await supabase.auth.getUser()
     if (!data.user) return null
@@ -64,12 +75,26 @@ export class AuthService implements IUsuarioMgt {
     if (error || !userData) return null
 
     return {
-      id: data.user.id,
+      id: data.user.id, // Mantenemos el ID de auth.users para referencia
       email: userData.email,
       role: userData.role,
     }
   }
 
+  async actualizarPerfil(userData: Partial<UserProfile>): Promise<{ success: boolean; error?: string }> {
+    try {
+      const { data } = await supabase.auth.getUser()
+      if (!data.user) throw new Error("No authenticated user")
+
+      const { error } = await supabase.from("users").update(userData).eq("email", data.user.email)
+
+      if (error) throw error
+
+      return { success: true }
+    } catch (error: any) {
+      return { success: false, error: error.message }
+    }
+  }
 }
 
 // Create a singleton instance

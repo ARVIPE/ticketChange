@@ -90,7 +90,7 @@ export class EventService implements IEventsMgt {
 
   async listarEventos(filtros?: EventoFiltros): Promise<{ eventos: Evento[]; error?: string }> {
     try {
-      let query = supabase.from("events").select("*").eq("canceled", false)
+      let query = supabase.from("events").select("*")
 
       // Apply filters if provided
       if (filtros) {

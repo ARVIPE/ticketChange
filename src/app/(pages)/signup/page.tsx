@@ -14,6 +14,14 @@ export default function Signup() {
   const { signup } = useUser()
 
   const handleSignUp = async () => {
+    setError(null)
+    setMessage(null)
+
+    if (!email || !password) {
+      setError("Por favor, completa todos los campos")
+      return
+    }
+
     const { success, error } = await signup(email, password, role)
 
     if (!success) {

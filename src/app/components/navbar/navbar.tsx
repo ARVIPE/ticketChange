@@ -15,33 +15,61 @@ export default function Navbar() {
   return (
     <nav className="bg-blue-600 text-white py-4 px-6 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
-        <Link href="/buyer">
+        <Link href="/">
           <span className="text-xl font-bold cursor-pointer">TicketChange</span>
         </Link>
 
         {/* Dynamic Navigation */}
         <div className="hidden md:flex space-x-6">
+          {/* Todos los usuarios pueden ver eventos */}
           <Link href="/buyer">
-            <span className="hover:underline cursor-pointer">Dashboard</span>
+            <span className="hover:underline cursor-pointer">Eventos</span>
           </Link>
 
+          {/* Solo compradores pueden ver sus tickets y el marketplace */}
+          {user && (user.role === "comprador" || user.role === "vendedor") && (
+            <>
+              <Link href="/my-tickets">
+                <span className="hover:underline cursor-pointer">Mis Tickets</span>
+              </Link>
+
+              <Link href="/transactions">
+                <span className="hover:underline cursor-pointer">Mis Transacciones</span>
+              </Link>
+
+              {user.role === "comprador" && (
+                <Link href="/marketplace">
+                  <span className="hover:underline cursor-pointer">Marketplace</span>
+                </Link>
+              )}
+            </>
+          )}
+
+          {/* Solo organizadores pueden acceder al panel de organizador */}
           {user?.role === "organizador" && (
-            <Link href="/organizador">
-              <span className="hover:underline cursor-pointer">Event Organizer</span>
+            <Link href="/organiser">
+              <span className="hover:underline cursor-pointer">Panel Organizador</span>
             </Link>
           )}
+
+          {/* Solo vendedores pueden acceder al panel de vendedor */}
           {user?.role === "vendedor" && (
-            <Link href="/vendedor">
-              <span className="hover:underline cursor-pointer">Seller Panel</span>
+            <Link href="/seller">
+              <span className="hover:underline cursor-pointer">Panel Vendedor</span>
             </Link>
           )}
         </div>
 
         {/* Logout */}
         {user ? (
-          <button className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600" onClick={handleLogout}>
-            Logout
-          </button>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm hidden md:inline">
+              {user.email} ({user.role})
+            </span>
+            <button className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
         ) : (
           <div className="space-x-4">
             <Link href="/login">
