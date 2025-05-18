@@ -76,7 +76,6 @@ export default function Signup() {
           >
             <option value="comprador">Comprador</option>
             <option value="organizador">Organizador</option>
-            <option value="vendedor">Vendedor</option>
           </select>
         </div>
 
