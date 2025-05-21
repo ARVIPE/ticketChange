@@ -1,5 +1,7 @@
 # TicketChange 🎟️
 
+Project deployed in: https://shiny-begonia-f0e9e7.netlify.app/
+
 **TicketChange** is a Next.js application for selling and reselling event tickets.
 
 ## 🚀 Steps to Run the Project
